@@ -1,0 +1,111 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include <cstdlib>
+#include <stdio.h>
+#include <iostream>
+
+using namespace std;
+
+//结点结构
+typedef struct TreeNode
+{
+	int data;
+	struct TreeNode* left;
+	struct TreeNode* right;
+}Node;
+
+typedef struct {
+	Node* root;
+}Tree;
+
+
+void insert_node(Tree *tree, int value) {
+	Node* node = (Node*)malloc(sizeof(Node));
+	node->data = value;
+	node->left = NULL;
+	node->right = NULL;
+	if (tree->root==NULL)
+	{
+		tree->root = node;
+	}
+	else
+	{
+		Node* temp = tree->root;
+		while (temp!=NULL)
+		{
+			if (value<temp->data)
+			{
+				if (temp->left!=NULL)
+				{
+					temp = temp->left;
+				}
+				else
+				{
+					temp->left = node;
+					return;
+				}
+			}
+			else
+			{
+				if (temp->right!=NULL)
+				{
+					temp = temp->right;
+				}
+				else
+				{
+					temp->right = node;
+					return;
+				}
+			}
+
+		}
+	}
+
+}
+
+
+void inorder1(Node* node) {
+	if (node != NULL)
+	{
+		printf("%d ", node->data);
+		inorder1(node->left);
+		inorder1(node->right);
+	}
+}
+
+void inorder2(Node* node) {
+	if (node!=NULL)
+	{
+		inorder2(node->left);
+		printf("%d ", node->data);
+		inorder2(node->right);
+	}
+}
+
+
+void inorder3(Node* node) {
+	if (node != NULL)
+	{
+		inorder3(node->left);
+		inorder3(node->right);
+		printf("%d ", node->data);
+	}
+}
+int main() {
+	Tree tree;
+	tree.root = NULL;
+	int n;
+	scanf("%d", &n);
+	for (int i = 0; i < n; i++)
+	{
+		int temp;
+		scanf("%d", &temp);
+		insert_node(&tree,temp);
+	}
+	inorder1(tree.root);
+	printf("\n");
+	inorder2(tree.root);
+	printf("\n");
+	inorder3(tree.root);
+	printf("\n");
+	return 0;
+}
